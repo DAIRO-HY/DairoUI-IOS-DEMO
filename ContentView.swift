@@ -1,51 +1,40 @@
 //
 //  ContentView.swift
-//  DairoDFS
+//  SettingExample
 //
-//  Created by zhoulq on 2025/04/09.
-//  pushtest
+//  Created by A. Zheng (github.com/aheze) on 2/22/23.
+//  Copyright © 2023 A. Zheng. All rights reserved.
+//
 
 import SwiftUI
+
 struct ContentView: View {
+    @AppStorage("selectedIndex") var selectedIndex = 1
     var body: some View {
-        NavigationView {
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                    ForEach(["按钮","分组按钮","相册"], id: \.self) { label in
-                        NavigationLink(destination: {
-                            switch label{
-                            case "按钮":
-                                ButtonsPage()
-                            default:
-                                EmptyView()
-                            }
-                        }) {
-                            Text(label)
-                        }
-                        //                            let imageInfo = viewModel.images[index]
-                        //                            Button(action:{
-                        //                                viewModel.delete(assets: [viewModel.images[0].asset,viewModel.images[1].asset,viewModel.images[2].asset,viewModel.images[3].asset])
-                        //                            }){
-                        //                                VStack{
-                        //                                    Image(uiImage: imageInfo.image)
-                        //                                        .resizable()
-                        //                                        .scaledToFill()
-                        //                                        .frame(width: 100, height: 100)
-                        //                                        .clipped()
-                        //        //                            Text("\(index)-\(getAssetFileExtension(imageInfo.asset)!)-\(Costom.getCostom())")
-                        //                                    Text("\(index)-\(getAssetFileExtension(imageInfo.asset)!)")
-                        //                                }
-                        //                            }
-                        //                        }
-                    }
-                    .padding()
+        TabView(selection: $selectedIndex) {
+            PreferencesView()
+                .tabItem {
+                    Label("配置", systemImage: "text.book.closed")
                 }
-            }.navigationTitle("首页")
+                .tag(0)
+
+            SettingsView()
+                .tabItem {
+                    Label("设置", systemImage: "gearshape")
+                }
+                .tag(1)
+
+            ControlPanelView()
+                .tabItem {
+                    Label("控制面板", systemImage: "dial.high")
+                }
+                .tag(2)
+            
+            PlaygroundView()
+                .tabItem {
+                    Label("Playground", systemImage: "gamecontroller")
+                }
+                .tag(3)
         }
     }
-}
-
-
-#Preview {
-    ContentView()
 }
