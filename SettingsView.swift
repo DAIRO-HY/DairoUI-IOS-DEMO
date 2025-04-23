@@ -10,6 +10,9 @@ import SwiftUI
 import DairoUI_IOS
 
 struct SettingsView: View {
+    
+    private static var testTime = 0
+    
     @State var text = "Hello World!"
     @State var pickerSelectedValue: AnyHashable? = 1
     
@@ -75,14 +78,22 @@ struct SettingsView: View {
                 }
                 
                 SettingGroup{
-                    
-                    SettingPage(title: "Privacy") {}
-                        .previewIcon("hand.raised.fill", color: .green)
+                    SettingNavigationLink(destination: AnyView(ImageListPage()),title: "图片列表")
+                        .icon("photo.stack", color: .green)
                     
                     SettingPage(title: "Notifications") {}
                         .previewIcon("bell.badge.fill", color: .red)
+                    
+                    SettingButton(title: "Toast临时弹出框",tip: "点击显示") {
+                        SettingsView.testTime += 1
+                        Toast.show("测试消息:\(SettingsView.testTime)")
+//                        RootViewManager.top.showToast = !RootViewManager.top.showToast
+//                        RootViewManager.top.toastMessage = ToastMessage(delay: 1.5, message: "消息内容")
+                    }
+                    .icon(icon: .system(icon: "sparkles", backgroundColor: Color.pink))
                 }
             }
         }
     }
 }
+
